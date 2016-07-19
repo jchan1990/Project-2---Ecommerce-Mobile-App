@@ -1,0 +1,42 @@
+Feature: 
+- Allows the User to search for abilities and espers by related criteria (searching for products by related)
+Condition:
+- Multiple button with icons displayed to allow filtering and sorting to fulfill the criteria of the search
+User Story:
+- As a User, I should be able to sort products by name, price, type, rating, etc.
+- As a User, I should be able to filter products displayed to show only what I want or prefer
+
+Feature:
+- The shopping cart should be accessible through the whole lifetime of the app
+Condition:
+- Every screen the User is on should display a shopping cart on the top right corner
+User Story:
+- As a User, I should be able to access the shopping cart whenever I want to
+- As a User, I should be able to see if the the shopping cart is empty or already has items
+
+Feature:
+- Clicking an item/ability should display a new dialog/activity and display the item/ability in full detail
+Condition:
+- Items/abilities is clickable and should open a dialog/activity with the extra details for said item
+User Story:
+- As a User, I should be able to tap on an item/ability and a new dialog/activity is shown
+- As a User, I should be able to see extra details on the item/ability in the new dialog/activity
+
+Feature:
+- Users should be able to edit items/abilities in the shopping cart
+Condition:
+- User decides he doesn't want an item anymore, he can delete the item
+- User decides he wants to get more of a certain item/ability he has in his cart, he can add items
+- User decides he has too much of a certain item/ability he has in his cart, he can reduce said content
+User Story:
+- As a User, I should be able to remove items from the shopping cart
+- As a User, I should be able modify the quantity of items I want to buy (add/remove)
+
+Feature:
+- Users can check out items/abilities in the shopping cart
+Condition:
+- At the shopping cart screen, User can check out and pay for their order
+- (OPTIONAL) If the User has no items in the shopping cart it should display a shopping cart with 0
+User Story:
+- As a User, I should be able to check out and pay for the items/abilities from the shopping cart
+- As a User, I should be able to tell whether or not I have items in the shopping cart
