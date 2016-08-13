@@ -38,6 +38,7 @@ public class DetailDialog {
                 dialog.dismiss();
             }
         });
+
         Button button = (Button) dialogLayout.findViewById(R.id.button_detail_add_to_cart);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -45,6 +46,7 @@ public class DetailDialog {
                 Toast.makeText(context, "Good Choice! Added to the cart!", Toast.LENGTH_SHORT).show();
                 DB_Helper helper = DB_Helper.getInstance(context);
                 //TODO WORK ON HELPER METHOD TO ADD TO CART
+                helper.addToCart(characterEsperArrayList.get(position));
                 dialog.dismiss();
             }
         });
@@ -61,23 +63,25 @@ public class DetailDialog {
         mDef = (TextView) dialog.findViewById(R.id.tv_detail_def);
         mMag = (TextView) dialog.findViewById(R.id.tv_detail_mag);
         mSpr = (TextView) dialog.findViewById(R.id.tv_detail_spr);
+        mIcon = (ImageView) dialog.findViewById(R.id.iv_detail_icon);
 
-        setDetailDialogInfo(characterEsperArrayList.get(position));
+        setDetailDialogInfo(characterEsperArrayList.get(position), context);
     }
 
     //TODO Figure out what is wrong with this... causing crashes if uncommented
-    public void setDetailDialogInfo(CharacterEsper characterEsper) {
+    public void setDetailDialogInfo(CharacterEsper characterEsper, Context context) {
         mName.setText(characterEsper.getName());
         mType.setText(characterEsper.getType());
         mOrigin.setText(characterEsper.getOrigin());
         mRarity.setText(characterEsper.getRarity());
-//        mPrice.setText(characterEsper.getPrice());
-//        mQuantity.setText(characterEsper.getQuantity());
-//        mHP.setText(characterEsper.getHp());
-//        mMP.setText(characterEsper.getMp());
-//        mAtk.setText(characterEsper.getAtk());
-//        mDef.setText(characterEsper.getDef());
-//        mMag.setText(characterEsper.getMag());
-//        mSpr.setText(characterEsper.getSpr());
+        mPrice.setText(characterEsper.getPrice() + " Gil");
+        mQuantity.setText(characterEsper.getQuantity() + " In Stock");
+        mHP.setText("HP: " + characterEsper.getHp());
+        mMP.setText("MP: " + characterEsper.getMp());
+        mAtk.setText("ATK: " + characterEsper.getAtk());
+        mDef.setText("DEF: " + characterEsper.getDef());
+        mMag.setText("MAG: " + characterEsper.getMag());
+        mSpr.setText("SPR: " + characterEsper.getSpr());
+        mIcon.setImageResource(context.getResources().getIdentifier(characterEsper.getIcon(), "drawable", context.getPackageName()));
     }
 }

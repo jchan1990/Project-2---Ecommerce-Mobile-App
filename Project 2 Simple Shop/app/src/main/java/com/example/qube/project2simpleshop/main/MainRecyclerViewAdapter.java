@@ -15,11 +15,11 @@ import java.util.ArrayList;
  * Created by Qube on 8/5/16.
  */
 public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainViewHolder> {
-    private ArrayList<CharacterEsper> mCharacterEsper = new ArrayList<>();
+    private ArrayList<CharacterEsper> mCharacterEsperList = new ArrayList<>();
     private Context mContext;
 
     public MainRecyclerViewAdapter(final ArrayList<CharacterEsper> list) {
-        mCharacterEsper = list;
+        mCharacterEsperList = list;
     }
 
     @Override
@@ -32,7 +32,7 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainViewHolder
 
     @Override
     public void onBindViewHolder(MainViewHolder holder, final int position) {
-        final CharacterEsper characterEsper = mCharacterEsper.get(position);
+        final CharacterEsper characterEsper = mCharacterEsperList.get(position);
         holder.mName.setText(characterEsper.getName());
         holder.mType.setText(characterEsper.getType());
         String characterEsperOrigin = "(" + characterEsper.getOrigin() + ")";
@@ -48,13 +48,13 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainViewHolder
             @Override
             public void onClick(View view) {
                 DetailDialog detailDialog = new DetailDialog();
-                detailDialog.displayDetailDialog(view.getContext(), position, mCharacterEsper);
+                detailDialog.displayDetailDialog(view.getContext(), position, mCharacterEsperList);
             }
         });
     }
 
     @Override
     public int getItemCount() {
-        return mCharacterEsper.size();
+        return mCharacterEsperList.size();
     }
 }

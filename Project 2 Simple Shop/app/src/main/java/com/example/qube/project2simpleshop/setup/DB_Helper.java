@@ -50,6 +50,7 @@ public class DB_Helper extends SQLiteOpenHelper {
 
     private static final String COL_CART_ID = "CART_ID";
     private static final String COL_CART_QUANTITY = "CART_QUANTITY";
+    public static final String COL_REF_C_E_ID = "C_E_ID";
 
     private static final String CREATE_CHARACTER_ESPER_TABLE = "CREATE TABLE " + CHARACTER_ESPER_TABLE + " ("
             + COL_C_E_ID + " INTEGER PRIMARY KEY NOT NULL, "
@@ -81,9 +82,9 @@ public class DB_Helper extends SQLiteOpenHelper {
     public static final String CREATE_CART_TABLE = "CREATE TABLE " + CART_TABLE + " ("
             + COL_CART_ID + " INTEGER PRIMARY KEY NOT NULL, "
             + COL_CART_QUANTITY + " INTEGER NOT NULL, "
-            + COL_C_E_ID + " INTEGER NOT NULL, "
+            + COL_REF_C_E_ID + " INTEGER NOT NULL, "
 //            + COL_ITEM_ID + " INTEGER NOT NULL, "
-            + "FOREIGN KEY (" + COL_C_E_ID + ") REFERENCES " + CHARACTER_ESPER_TABLE + "(" + COL_C_E_ID + ")) ";
+            + "FOREIGN KEY (" + COL_REF_C_E_ID + ") REFERENCES " + CHARACTER_ESPER_TABLE + "(" + COL_C_E_ID + ")) ";
     // Will work on after project is completed
 //            + "FOREIGN KEY (" + COL_ITEM_ID + ") REFERENCES " + ITEM_TABLE + "(" + COL_ITEM_ID + "))";
 
@@ -405,7 +406,7 @@ public class DB_Helper extends SQLiteOpenHelper {
             query = "SELECT * FROM " + CHARACTER_ESPER_TABLE;
         } else {
             query = "SELECT * FROM " + CHARACTER_ESPER_TABLE + " WHERE " + COL_NAME +
-                    " '" + search + "%'";
+                    " LIKE '" + search + "%'";
         }
 
         cursor = db.rawQuery(query, null);
@@ -428,5 +429,104 @@ public class DB_Helper extends SQLiteOpenHelper {
         cursor.close();
         db.close();
         return characterEspers;
+    }
+
+    public ArrayList<ShoppingCartObject> getCartItemsAsObjects() {
+        SQLiteDatabase db = getReadableDatabase();
+        ArrayList<ShoppingCartObject> shoppingCartObjectList = new ArrayList<>();
+
+        String query = "SELECT " + COL_ICON + "," + COL_NAME + "," + COL_QUANTITY + "," + COL_PRICE +
+                " FROM " + CHARACTER_ESPER_TABLE + " JOIN " + CART_TABLE + " ON " + CART_TABLE + "." +
+                COL_REF_C_E_ID + " = " + COL_NAME + "." + COL_C_E_ID;
+        Cursor cursor = db.rawQuery(query, null);
+        if (cursor.moveToFirst()) {
+            while (!cursor.isAfterLast()) {
+                shoppingCartObjectList.add(new ShoppingCartObject(
+                        cursor.getString(cursor.getColumnIndex(COL_ICON)), cursor.getString(cursor.getColumnIndex(COL_NAME)),
+                        cursor.getInt(cursor.getColumnIndex(COL_PRICE)), cursor.getInt(cursor.getColumnIndex(COL_QUANTITY))));
+
+                cursor.moveToNext();
+            }
+        }
+        cursor.close();
+        db.close();
+        return shoppingCartObjectList;
+    }
+
+    public void deleteCharacterEsperFromCart(ShoppingCartObject item) {
+        int id = getCharacterEsperIdFromShoppingCartObject(item);
+        SQLiteDatabase db = getWritableDatabase();
+
+        String selection = COL_REF_C_E_ID + " = ?";
+        String[] selectionArgs = new String[]{String.valueOf(id)};
+        db.delete(CART_TABLE, selection, selectionArgs);
+        db.close();
+    }
+
+    public int getCharacterEsperIdFromShoppingCartObject(ShoppingCartObject item) {
+        int id = 0;
+        String iconId = String.valueOf(item.getmIcon());
+        SQLiteDatabase db = getReadableDatabase();
+        String query = "SELET " + COL_C_E_ID + " FROM " + CHARACTER_ESPER_TABLE +
+                " WHERE " + COL_ICON + " LIKE " + iconId;
+        Cursor cursor = db.rawQuery(query, null);
+        if (cursor.moveToFirst()) {
+            while (!cursor.isAfterLast()) {
+                id = cursor.getInt(cursor.getColumnIndex(COL_C_E_ID));
+                cursor.moveToNext();
+            }
+        }
+        return id;
+    }
+
+    public void addToCart(CharacterEsper characterEsper) {
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues values = new ContentValues();
+        int characterEsperId = characterEsper.getId();
+        values.put(COL_REF_C_E_ID, characterEsperId);
+        values.put(COL_CART_QUANTITY, 1);
+        db.close();
+    }
+
+    public void clearCartTableUponCheckout() {
+        SQLiteDatabase db = getWritableDatabase();
+        db.execSQL("DELETE FROM " + CART_TABLE);
+        db.close();
+    }
+
+    public int getQuantityFromTable(ShoppingCartObject item) {
+        SQLiteDatabase db = getReadableDatabase();
+        int quantity = 0;
+        int characterEsperId = getCharacterEsperIdFromShoppingCartObject(item);
+        String query = "SELECT " + COL_CART_QUANTITY + " FROM " + CART_TABLE +
+                " WHERE " + COL_REF_C_E_ID + " = " + characterEsperId;
+        Cursor cursor = db.rawQuery(query, null);
+        if (cursor.moveToFirst()) {
+            while (!cursor.isAfterLast()) {
+                quantity = cursor.getInt(cursor.getColumnIndex(COL_CART_QUANTITY));
+                cursor.moveToNext();
+            }
+        }
+        return quantity;
+    }
+
+    public void increaseQuantity(ShoppingCartObject item) {
+        SQLiteDatabase db = getWritableDatabase();
+        int characterEsperId = getCharacterEsperIdFromShoppingCartObject(item);
+        int currentQuantity = getQuantityFromTable(item);
+        String update = "UPDATE " + CART_TABLE + " SET " + COL_CART_QUANTITY + " = " + (currentQuantity + 1) +
+                " WHERE " + COL_REF_C_E_ID + " = " + characterEsperId;
+        db.execSQL(update);
+        db.close();
+    }
+
+    public void decreaseQuantity(ShoppingCartObject item) {
+        SQLiteDatabase db = getWritableDatabase();
+        int characterEsperId = getCharacterEsperIdFromShoppingCartObject(item);
+        int currentQuantity = getQuantityFromTable(item);
+        String update = "UPDATE " + CART_TABLE + " SET " + COL_CART_QUANTITY + " = " + (currentQuantity - 1) +
+                " WHERE " + COL_REF_C_E_ID + " = " + characterEsperId;
+        db.execSQL(update);
+        db.close();
     }
 }

@@ -4,10 +4,12 @@ import android.app.SearchManager;
 import android.app.SearchableInfo;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.AssetFileDescriptor;
 import android.media.MediaPlayer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -23,6 +25,7 @@ import com.example.qube.project2simpleshop.R;
 import com.example.qube.project2simpleshop.search.SearchResultActivity;
 import com.example.qube.project2simpleshop.setup.CharacterEsper;
 import com.example.qube.project2simpleshop.setup.DB_Helper;
+import com.example.qube.project2simpleshop.shoppingcart.ShoppingCartActivity;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -30,9 +33,11 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private RecyclerView rv;
+    private LinearLayoutManager llm;
     private RecyclerView.Adapter adapter;
-    ArrayList<CharacterEsper> list;
-    DB_Helper db;
+    private ArrayList<CharacterEsper> list;
+    private DB_Helper db;
+    private CardView mCardView;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,8 +49,8 @@ public class MainActivity extends AppCompatActivity {
         rv = (RecyclerView) findViewById(R.id.rv_main);
         adapter = new MainRecyclerViewAdapter(list);
 
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        rv.setLayoutManager(linearLayoutManager);
+        llm = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        rv.setLayoutManager(llm);
 
         rv.setAdapter(adapter);
 
@@ -56,6 +61,14 @@ public class MainActivity extends AppCompatActivity {
 
         //This should play a sound :D LET'S CROSS OUR FINGERS :D
         chocoboCaller();
+
+        mCardView = (CardView) findViewById(R.id.cv_main_shopping_cart);
+        mCardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this, ShoppingCartActivity.class));
+            }
+        });
     }
 
     @Override

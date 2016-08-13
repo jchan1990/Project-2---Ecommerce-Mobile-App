@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".main.MainActivity">
+    tools:context="com.example.qube.project2simpleshop.shoppingcart.ShoppingCartActivity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/tb_titleAndCart"
@@ -37,9 +37,9 @@
                 android:textStyle="bold" />
 
             <android.support.v7.widget.CardView
-                android:id="@+id/cv_main_shopping_cart"
+                android:id="@+id/cv_checkout"
                 android:layout_width="80dp"
-                android:layout_height="match_parent"
+                android:layout_height="40sp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_margin="6dp"
@@ -50,27 +50,17 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
-                    <ImageView
-                        android:id="@+id/iv_cart"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="10dp"
-                        android:background="@android:color/transparent"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/ic_add_shopping_cart_black_24dp" />
-
                     <TextView
                         android:id="@+id/tv_cart_quantity"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
+                        android:layout_centerInParent="true"
                         android:layout_centerVertical="true"
                         android:layout_toRightOf="@+id/iv_cart"
                         android:gravity="center"
-                        android:text="0"
+                        android:text="Checkout"
                         android:textColor="@color/black"
-                        android:textSize="20sp" />
+                        android:textSize="16sp" />
                 </RelativeLayout>
 
             </android.support.v7.widget.CardView>
@@ -78,31 +68,21 @@
 
     </android.support.v7.widget.Toolbar>
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/tb_search"
+    <TextView
+        android:id="@+id/tv_total"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/blue_900"
-        android:elevation="4dp">
+        android:layout_height="wrap_content"
+        android:gravity="right"
+        android:padding="10dp"
+        android:text="Total: ###"
+        android:textSize="20sp"
+        android:textStyle="bold" />
 
-        <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:padding="8dp"
-            android:src="@drawable/ic_crystal" />
-
-
-    </android.support.v7.widget.Toolbar>
-
-    <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/rv_main"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_shopping_cart"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:background="@color/grey_100"
-        android:scrollbars="vertical"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-    </android.support.v7.widget.RecyclerView>
+        android:scrollbars="vertical"></android.support.v7.widget.RecyclerView>
 
 </LinearLayout>

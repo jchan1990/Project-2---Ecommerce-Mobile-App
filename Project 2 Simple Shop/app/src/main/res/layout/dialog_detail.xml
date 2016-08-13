@@ -101,7 +101,7 @@
 
         </LinearLayout>
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight=".5"
@@ -111,7 +111,8 @@
                 android:id="@+id/tv_detail_hp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="70dp"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="35dp"
                 android:layout_weight="1"
                 android:text="HP"
                 android:textSize="20sp" />
@@ -120,6 +121,7 @@
                 android:id="@+id/tv_detail_atk"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
                 android:layout_weight="1"
                 android:text="ATK"
                 android:textSize="20sp" />
@@ -128,14 +130,15 @@
                 android:id="@+id/tv_detail_mag"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
                 android:layout_marginRight="35dp"
                 android:layout_weight="1"
                 android:text="MAG"
                 android:textSize="20sp" />
 
-        </LinearLayout>
+        </RelativeLayout>
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight=".5"
@@ -145,7 +148,8 @@
                 android:id="@+id/tv_detail_mp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="70dp"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="35dp"
                 android:layout_weight="1"
                 android:text="MP"
                 android:textSize="20sp" />
@@ -154,6 +158,7 @@
                 android:id="@+id/tv_detail_def"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
                 android:layout_weight="1"
                 android:text="DEF"
                 android:textSize="20sp" />
@@ -162,12 +167,13 @@
                 android:id="@+id/tv_detail_spr"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
                 android:layout_marginRight="35dp"
                 android:layout_weight="1"
                 android:text="SPR"
                 android:textSize="20sp" />
 
-        </LinearLayout>
+        </RelativeLayout>
 
         <Button
             android:id="@+id/button_detail_add_to_cart"
