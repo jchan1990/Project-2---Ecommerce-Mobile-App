@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.qube.project2simpleshop.R;
-import com.example.qube.project2simpleshop.setup.DB_Helper;
+import com.example.qube.project2simpleshop.setup.DatabaseHelper;
 import com.example.qube.project2simpleshop.setup.ShoppingCartObject;
 
 import java.util.ArrayList;
@@ -19,7 +19,7 @@ import java.util.ArrayList;
 public class ShoppingCartRecyclerViewAdapter extends RecyclerView.Adapter<ShoppingCartViewHolder> {
     private ArrayList<ShoppingCartObject> mShoppingCartObjectList = new ArrayList<>();
     private Context mContext;
-    DB_Helper helper = DB_Helper.getInstance(mContext);
+    DatabaseHelper helper = DatabaseHelper.getInstance(mContext);
     private int mTotal;
 
     public ShoppingCartRecyclerViewAdapter(Context context, ArrayList<ShoppingCartObject> list) {
@@ -79,7 +79,7 @@ public class ShoppingCartRecyclerViewAdapter extends RecyclerView.Adapter<Shoppi
     }
 
     public void removeByPosition(int position) {
-        DB_Helper.getInstance(mContext).deleteCharacterEsperFromCart(mShoppingCartObjectList.get(position));
+        DatabaseHelper.getInstance(mContext).deleteCharacterEsperFromCart(mShoppingCartObjectList.get(position));
         mShoppingCartObjectList.remove(position);
         notifyItemRemoved(position);
     }

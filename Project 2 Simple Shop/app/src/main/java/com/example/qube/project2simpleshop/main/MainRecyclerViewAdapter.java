@@ -40,7 +40,7 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainViewHolder
         holder.mRarity.setText(characterEsper.getRarity());
         String characterEsperPrice = characterEsper.getPrice() + " Gil";
         holder.mPrice.setText(characterEsperPrice);
-        String characterEsperQuantity = characterEsper.getQuantity() + " In Stock";
+        String characterEsperQuantity = "In Stock";
         holder.mQuantity.setText(characterEsperQuantity);
         holder.mIcon.setImageResource(mContext.getResources().getIdentifier(characterEsper.getIcon(), "drawable", mContext.getPackageName()));
 

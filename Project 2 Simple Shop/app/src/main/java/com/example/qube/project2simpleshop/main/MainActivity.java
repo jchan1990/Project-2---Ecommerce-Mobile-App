@@ -4,12 +4,8 @@ import android.app.SearchManager;
 import android.app.SearchableInfo;
 import android.content.ComponentName;
 import android.content.Context;
-import android.content.Intent;
-import android.content.res.AssetFileDescriptor;
-import android.media.MediaPlayer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -18,16 +14,14 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.Toast;
 
+import com.example.qube.project2simpleshop.setup.CardViewListener;
 import com.example.qube.project2simpleshop.R;
+import com.example.qube.project2simpleshop.easteregg.ChocoboMediaPlayer;
 import com.example.qube.project2simpleshop.search.SearchResultActivity;
 import com.example.qube.project2simpleshop.setup.CharacterEsper;
-import com.example.qube.project2simpleshop.setup.DB_Helper;
-import com.example.qube.project2simpleshop.shoppingcart.ShoppingCartActivity;
+import com.example.qube.project2simpleshop.setup.DatabaseHelper;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
@@ -36,15 +30,15 @@ public class MainActivity extends AppCompatActivity {
     private LinearLayoutManager llm;
     private RecyclerView.Adapter adapter;
     private ArrayList<CharacterEsper> list;
-    private DB_Helper db;
-    private CardView mCardView;
+    private DatabaseHelper db;
+    private View view;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         // RecyclerView set up
-        db = DB_Helper.getInstance(MainActivity.this);
+        db = DatabaseHelper.getInstance(MainActivity.this);
         list = db.getCharactersAndEspers();
         rv = (RecyclerView) findViewById(R.id.rv_main);
         adapter = new MainRecyclerViewAdapter(list);
@@ -59,16 +53,14 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-        //This should play a sound :D LET'S CROSS OUR FINGERS :D
-        chocoboCaller();
+        view = findViewById(R.id.main_activity_layout);
 
-        mCardView = (CardView) findViewById(R.id.cv_main_shopping_cart);
-        mCardView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, ShoppingCartActivity.class));
-            }
-        });
+        //Calls the method ChocoboCaller in the ChocoboMediaPlayer class to play a sound
+        ChocoboMediaPlayer.getInstance(this).ChocoboCaller(this, view);
+
+        //Calls the method CartCardViewListener in the CardViewListener class
+        // to listen to a click to bring you to shopping cart
+        CardViewListener.getInstance(this).CartCardViewListener(this, view);
     }
 
     @Override
@@ -88,34 +80,5 @@ public class MainActivity extends AppCompatActivity {
         searchEditText.setHintTextColor(getResources().getColor(R.color.white));
 
         return true;
-    }
-
-    //This should play a sound :D LET'S CROSS OUR FINGERS :D
-    public void chocoboCaller() {
-        final MediaPlayer mp = new MediaPlayer();
-        ImageView imageViewChocobo = (ImageView) findViewById(R.id.iv_chocobo_caller);
-
-        imageViewChocobo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                Toast.makeText(MainActivity.this, "Hmmm... I hear a chocobo nearby", Toast.LENGTH_SHORT).show();
-                if (mp.isPlaying()) {
-                    mp.stop();
-                }
-                try {
-                    mp.reset();
-                    AssetFileDescriptor afd;
-                    afd = getAssets().openFd("ChocoboCall.mp3");
-                    mp.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
-                    mp.prepare();
-                    mp.start();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (IllegalStateException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
     }
 }

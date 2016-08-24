@@ -12,7 +12,7 @@ import android.widget.Toast;
 
 import com.example.qube.project2simpleshop.R;
 import com.example.qube.project2simpleshop.setup.CharacterEsper;
-import com.example.qube.project2simpleshop.setup.DB_Helper;
+import com.example.qube.project2simpleshop.setup.DatabaseHelper;
 
 import java.util.ArrayList;
 
@@ -44,7 +44,7 @@ public class DetailDialog {
             @Override
             public void onClick(View view) {
                 Toast.makeText(context, "Good Choice! Added to the cart!", Toast.LENGTH_SHORT).show();
-                DB_Helper helper = DB_Helper.getInstance(context);
+                DatabaseHelper helper = DatabaseHelper.getInstance(context);
                 //TODO WORK ON HELPER METHOD TO ADD TO CART
                 helper.addToCart(characterEsperArrayList.get(position));
                 dialog.dismiss();

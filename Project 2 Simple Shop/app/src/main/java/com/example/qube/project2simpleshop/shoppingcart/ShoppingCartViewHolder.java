@@ -21,7 +21,7 @@ public class ShoppingCartViewHolder extends RecyclerView.ViewHolder {
     public ShoppingCartViewHolder(View view) {
         super(view);
 
-        mTotal = (TextView) view.findViewById(R.id.tv_total);
+//        mTotal = (TextView) view.findViewById(R.id.tv_total);
         mCardView = (CardView) view.findViewById(R.id.cv_shopping_cart);
         mIcon = (ImageView) view.findViewById(R.id.iv_icon_cart);
         mName = (TextView) view.findViewById(R.id.tv_name_cart);
